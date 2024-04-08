@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "startAtTimestamp": { "type": "number" },
+    "endAtTimestamp": { "type": "number" },
+    "timeInSeconds": { "type": "number" },
+    "timeDisplayText": { "type": "string" }
+  },
+  "required": [
+    "startAtTimestamp",
+    "endAtTimestamp",
+    "timeInSeconds",
+    "timeDisplayText"
+  ],
+  "additionalProperties": false
+}

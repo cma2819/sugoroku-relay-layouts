@@ -1,0 +1,24 @@
+{
+  "_render-upB0eyjL.js": {
+    "file": "render-upB0eyjL.js"
+  },
+  "src/browser/dashboard/pages/control.tsx": {
+    "file": "control-MaFogPV0.js",
+    "imports": [
+      "_render-upB0eyjL.js"
+    ],
+    "isEntry": true,
+    "src": "src/browser/dashboard/pages/control.tsx"
+  },
+  "src/browser/graphics/pages/timer.tsx": {
+    "css": [
+      "timer-FfjaL4yH.css"
+    ],
+    "file": "timer-N7zRBOPV.js",
+    "imports": [
+      "_render-upB0eyjL.js"
+    ],
+    "isEntry": true,
+    "src": "src/browser/graphics/pages/timer.tsx"
+  }
+}

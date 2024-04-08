@@ -1,0 +1,22 @@
+version: "3"
+services:
+  nodecg:
+    image: ghcr.io/nodecg/nodecg:latest
+    volumes:
+      - "./cfg:/opt/nodecg/cfg:rw"
+      - "assets:/opt/nodecg/assets:rw"
+      - "db:/opt/nodecg/db:rw"
+      - "./dashboard:/opt/nodecg/bundles/sugoroku-relay-layouts/dashboard:ro"
+      - "./graphics:/opt/nodecg/bundles/sugoroku-relay-layouts/graphics:ro"
+      - "./extension:/opt/nodecg/bundles/sugoroku-relay-layouts/extension:ro"
+      - "./schemas:/opt/nodecg/bundles/sugoroku-relay-layouts/schemas:ro"
+      - "./node_modules:/opt/nodecg/bundles/sugoroku-relay-layouts/node_modules:ro"
+      - "./package.json:/opt/nodecg/bundles/sugoroku-relay-layouts/package.json:ro"
+      - "./configschema.json:/opt/nodecg/bundles/sugoroku-relay-layouts/configschema.json:ro"
+    ports:
+      - "9090:9090"
+
+volumes:
+  db:
+  assets:
+  node_modules:

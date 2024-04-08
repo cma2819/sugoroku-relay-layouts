@@ -1,0 +1,1 @@
+import{r as p,j as t,a as e}from"./render-upB0eyjL.js";const o=()=>{const[s,n]=e.useState(""),r=nodecg.Replicant("timer");return e.useEffect(()=>{r.on("change",i=>{n(i.timeDisplayText)})},[]),t.jsx("div",{style:{display:"flex",justifyContent:"center",alignItems:"center",position:"absolute",top:"0px",left:"0px",width:"520px",height:"120px"},children:s})};p(t.jsx(o,{}));

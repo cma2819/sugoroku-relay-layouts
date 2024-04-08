@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "defaultSchedule": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "default": "2024-04-13T13:00:00.000+09:00"
+        },
+        "end": {
+          "type": "string",
+          "default": "2024-05-12T21:00:00.000+09:00"
+        }
+      },
+      "required": ["start", "end"],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
