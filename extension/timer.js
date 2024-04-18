@@ -70,7 +70,6 @@ const timer = (nodecg) => {
                 timeInSeconds: timer.getCurrentTimeInSeconds(),
                 timeDisplayText: timer.getDisplayTime(),
             };
-            console.log(timerRep.value);
         }
     }, 100);
 };
