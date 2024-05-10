@@ -15,17 +15,24 @@ const Timer = (props) => {
     const tick = (now) => {
         const timestamp = now.getTime();
         const progress = Math.max(0, timestamp - startAtTimestamp);
-        const currentInMs = isCountdown ? Math.max(0, timeLength - progress) : Math.min(timeLength, progress);
+        const currentInMs = isCountdown ? timeLength - progress : progress;
         currentTimeInSeconds = Math.floor(currentInMs / 1000);
     };
     const getCurrentTimeInSeconds = () => {
         return currentTimeInSeconds;
     };
     const getDisplayTime = () => {
-        const hours = Math.floor(currentTimeInSeconds / 3600);
-        const minutes = Math.floor((currentTimeInSeconds % 3600) / 60);
-        const seconds = Math.floor(currentTimeInSeconds % 60);
-        return [hours > 0 ? String(hours) : null, String(minutes).padStart(2, '0'), String(seconds).padStart(2, '0')].filter((v) => v !== null).join(':');
+        const showMinus = currentTimeInSeconds < 0;
+        const currentTimeAbs = Math.abs(currentTimeInSeconds);
+        const hours = Math.floor(currentTimeAbs / 3600);
+        const minutes = Math.floor((currentTimeAbs % 3600) / 60);
+        const seconds = Math.floor(currentTimeAbs % 60);
+        return (showMinus ? '-' : '')
+            + [
+                hours > 0 ? String(hours) : null,
+                String(minutes).padStart(2, '0'),
+                String(seconds).padStart(2, '0')
+            ].filter((v) => v !== null).join(':');
     };
     return {
         getTimestamps,
