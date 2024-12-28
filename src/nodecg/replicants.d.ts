@@ -1,4 +1,4 @@
-import { Timer, TimerInputs } from './generated';
+import { Status, Timer, TimerInputs } from "./generated";
 
 type Asset = {
   base: string;
@@ -8,19 +8,14 @@ type Asset = {
   name: string;
   sum: string;
   url: string;
-}
+};
 
 type Assets = Array<Asset>;
 
 type ReplicantMap = {
   timer: Timer;
   timerInputs: TimerInputs;
-}
-
-export {
-  Asset,
-  Assets,
-  ReplicantMap,
-  Timer,
-  TimerInputs,
+  status: Status;
 };
+
+export { Asset, Assets, ReplicantMap, Timer, TimerInputs, Status };

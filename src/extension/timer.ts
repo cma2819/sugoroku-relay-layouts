@@ -1,15 +1,17 @@
-import { NodeCG } from './nodecg';
+import { NodeCG } from "./nodecg";
 
 type TimerProps = {
-    start: Date;
-    end: Date;
-    isCountdown?: boolean;
-}
+  start: Date;
+  end: Date;
+};
 
 export const Timer = (props: TimerProps) => {
-  const isCountdown = props.isCountdown ?? false;
-  const startAtTimestamp = isNaN(props.start.getTime()) ? 0 : props.start.getTime();
-  const endAtTimestamp = isNaN(props.end.getTime()) ? Infinity : props.end.getTime();
+  const startAtTimestamp = isNaN(props.start.getTime())
+    ? 0
+    : props.start.getTime();
+  const endAtTimestamp = isNaN(props.end.getTime())
+    ? Infinity
+    : props.end.getTime();
   const timeLength = Math.max(0, endAtTimestamp - startAtTimestamp);
 
   let currentTimeInSeconds = 0;
@@ -23,7 +25,7 @@ export const Timer = (props: TimerProps) => {
     const timestamp = now.getTime();
     const progress = Math.max(0, timestamp - startAtTimestamp);
 
-    const currentInMs = isCountdown ? timeLength - progress : progress;
+    const currentInMs = progress;
 
     currentTimeInSeconds = Math.floor(currentInMs / 1000);
   };
@@ -32,19 +34,32 @@ export const Timer = (props: TimerProps) => {
     return currentTimeInSeconds;
   };
 
-  const getDisplayTime = () => {
-    const showMinus = currentTimeInSeconds < 0;
-    const currentTimeAbs = Math.abs(currentTimeInSeconds);
+  const formatTimeText = (time: number) => {
+    const showMinus = time < 0;
+    const currentTimeAbs = Math.abs(time);
     const hours = Math.floor(currentTimeAbs / 3600);
     const minutes = Math.floor((currentTimeAbs % 3600) / 60);
     const seconds = Math.floor(currentTimeAbs % 60);
 
-    return (showMinus ? '-' : '')
-      + [
+    return (
+      (showMinus ? "-" : "") +
+      [
         hours > 0 ? String(hours) : null,
-        String(minutes).padStart(2, '0'),
-        String(seconds).padStart(2, '0')
-      ].filter((v): v is string => v !== null).join(':');
+        String(minutes).padStart(2, "0"),
+        String(seconds).padStart(2, "0"),
+      ]
+        .filter((v): v is string => v !== null)
+        .join(":")
+    );
+  };
+
+  const getDisplayTime = () => {
+    return {
+      up: formatTimeText(currentTimeInSeconds),
+      down: formatTimeText(
+        Math.floor(timeLength / 1000) - currentTimeInSeconds
+      ),
+    };
   };
 
   return {
@@ -56,36 +71,42 @@ export const Timer = (props: TimerProps) => {
 };
 
 const timer = (nodecg: NodeCG) => {
-
   let timer: ReturnType<typeof Timer>;
 
   const defaultSchedule = nodecg.bundleConfig.defaultSchedule;
 
-  const timerInputsRep = nodecg.Replicant('timerInputs', {
+  const timerInputsRep = nodecg.Replicant("timerInputs", {
     defaultValue: {
-      startAt: defaultSchedule?.start ?? (new Date(0)).toISOString(),
-      endAt: defaultSchedule?.end ?? (new Date(Infinity)).toISOString(),
-    }
+      startAt: defaultSchedule?.start ?? new Date(0).toISOString(),
+      endAt: defaultSchedule?.end ?? new Date(Infinity).toISOString(),
+    },
   });
-  const timerRep = nodecg.Replicant('timer', {
+  const timerRep = nodecg.Replicant("timer", {
     defaultValue: {
       startAtTimestamp: 0,
       endAtTimestamp: 0,
       timeInSeconds: 0,
-      timeDisplayText: '00:00',
-    }
+      timeDisplayText: {
+        up: "00:00",
+        down: "00:00",
+      },
+    },
   });
+  const statusRep = nodecg.Replicant("status", { defaultValue: "play" });
 
-  timerInputsRep.on('change', newVal => {
+  timerInputsRep.on("change", (newVal) => {
     timer = Timer({
       start: new Date(Date.parse(newVal.startAt)),
       end: new Date(Date.parse(newVal.endAt)),
-      isCountdown: true
     });
   });
-  
+
   setInterval(() => {
-    if(timer) {
+    if (!statusRep.value) {
+      return;
+    }
+
+    if (timer && statusRep.value === "play") {
       timer.tick(new Date());
 
       const timestamps = timer.getTimestamps();

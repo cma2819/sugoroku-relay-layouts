@@ -11,7 +11,7 @@
     "dev:browser": "vite",
     "dev:extension": "npm run build:extension -- --watch",
     "schema-types": "nodecg schema-types -o ./src/nodecg/generated",
-    "test": "jest"
+    "test": "jest src"
   },
   "nodecg": {
     "compatibleRange": "^1.9.0 || ^2.0.0",

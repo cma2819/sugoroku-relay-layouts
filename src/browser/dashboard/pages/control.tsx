@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { render } from '../../render';
+import { Status } from '../../../nodecg/generated';
 
 const toDatetimeLocalString = (d: Date) => {
   const year = d.getFullYear();
@@ -16,14 +17,20 @@ const App = () => {
   const [ currentTime, setCurrentTime ] = useState<string>('');
   const [ startAt, setStartAt ] = useState<string>('');
   const [ endAt, setEndAt ] = useState<string>('');
+  const [ status, setStatus ] = useState<Status>('play');
 
   const timerRep = nodecg.Replicant('timer');
   const timerInputsRep = nodecg.Replicant('timerInputs');
+  const statusRep = nodecg.Replicant('status');
 
   useEffect(() => {
     timerRep.on('change', newVal => {
-      setCurrentTime(newVal.timeDisplayText);
+      setCurrentTime(newVal.timeDisplayText.down);
     });
+
+    statusRep.on('change', newVal => {
+      setStatus(newVal);
+    })
 
     nodecg.readReplicant('timerInputs', (val) => {
       const startAt = new Date(Date.parse(val.startAt));
@@ -50,8 +57,24 @@ const App = () => {
       justifyContent: 'center',
       alignItems: 'center',
     }}>
+      <div>
       <label>残り時間：
         <input type='text' readOnly value={currentTime} /></label>
+      {
+        status === 'play' && (
+          <button type='button' onClick={() => {
+            statusRep.value = 'stop'
+          }}>停止</button>
+        )
+      }
+      {
+        status === 'stop' && (
+          <button type='button' onClick={() => {
+            statusRep.value = 'play'
+          }}>再開</button>
+        )
+      }
+      </div>
       <p>開始日時・終了日時を変更すると即座に反映されます</p>
       <label>開始日時：
         <input type='datetime-local' value={startAt} onChange={(e) => {

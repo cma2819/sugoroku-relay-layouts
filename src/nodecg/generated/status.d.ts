@@ -5,12 +5,4 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Timer {
-	startAtTimestamp: number;
-	endAtTimestamp: number;
-	timeInSeconds: number;
-	timeDisplayText: {
-		up: string;
-		down: string;
-	};
-}
+export type Status = 'play' | 'stop';

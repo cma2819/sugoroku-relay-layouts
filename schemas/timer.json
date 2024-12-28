@@ -5,7 +5,15 @@
     "startAtTimestamp": { "type": "number" },
     "endAtTimestamp": { "type": "number" },
     "timeInSeconds": { "type": "number" },
-    "timeDisplayText": { "type": "string" }
+    "timeDisplayText": {
+      "type": "object",
+      "properties": {
+        "up": { "type": "string" },
+        "down": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "required": ["up", "down"]
+    }
   },
   "required": [
     "startAtTimestamp",

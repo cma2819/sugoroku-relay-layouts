@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { render } from '../../render';
 import '../common.css';
+import { Timer } from '../../../nodecg/generated';
+
+const params = new URLSearchParams(location.search);
+const isUp = params.has('up') && Boolean(params.get('up'));
 
 const App = () => {
 
-  const [ currentTime, setCurrentTime ] = useState<string>('');
+  const [ currentTime, setCurrentTime ] = useState<Timer['timeDisplayText']>({
+    up: '',
+    down: '',
+  });
 
   const timerRep = nodecg.Replicant('timer');
 
@@ -25,7 +32,7 @@ const App = () => {
       width: '520px',
       height: '120px',
     }}>
-      { currentTime }
+      { isUp ? currentTime.up : currentTime.down }
     </div>
   );
 };
